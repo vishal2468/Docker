@@ -240,40 +240,62 @@ What happened
 • New container created with the files from the image
 • Started a prompt within the container
 
-# show how to run java without installing java in host os
+### show how to run java without installing java in host os
+jshell
+# similarly we can run python or node etc on our system without installing them.
 
-Images vs containers
+# how is containers used in dev
+# cloud providers like AWS , OCI , GCP have containerisstion and container orchasteration system
+
+### Images vs containers
+
 • Every container has a starting point as an image
 • Two containers starting from the same image are exactly identical (at start)
 • You can modify things on a container!
 • That doesn't modify the image
 
-Advantage
+# show how docker image is just a file 
+docker save alpine -o alpine.zip 
+
+# Advantage
 Immutability
 
-Pick your image
+
+# Pick your image
 Don't tweak your container
 
 docker ps
 List of Docker containers
 
-Important Docker command
+## Important Docker command
+
 docker ps // shows running containers
-docker stop <id> 
-docker start <id>
+docker stop <id> //normal stop a process
+docker kill <id> //force stop a process
+docker start <id> // start a stopped process
 docker run <name>
 docker run -d <name>  // run the process in background
-docker run -it <name> <command> // run a docker container in interactive mode and run the command in that container
-docker exec <id> <conmmand> // runs command in already running container
+docker run -it <name> <command> // run a docker container in interactive terminal mode and run the command in that container
 docker ps -a
 docker rm <id> remove a stopped container
+// cannot remove a running container
+// explain why docker stop doesnot free up any memory
+docker commit 
+
+docker exec <id> <command> // runs command in already running container
+docker exec <id> ls
+
+## --rm
 docker run --rm -it <name> <command> //remove the container when the process is over
 docker run --name <my-container-name> <name> // name a container as choice
+
 docker run --name <my-container-name> -e <evn_var_name>=<env_var_val> <name> // we can set enviorment variables. // this may be useful for setting password of db
+
 docker run -v ${PWD}:/hostvol <name> // now the container the pwd folder from inside the container
 docker run -v <host_sys_path>:<container_path> <name> // container is able to access <host_sys_path> from inside the container and the folder is mounted in the <container_path>
 // we can even save files inside the container in the mounted vol and it will get reflected in the host system
 //it acts like a bridge
+
 docker run --name my-mysql-1 -e MYSQL_ROOT_PASSWORD=secret -v ${PWD}: /var/lib/mysql -d mysql  // my sql saves the files in the /var/lib/mysql so here we are plugging our host dir in place of that
 
 
