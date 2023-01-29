@@ -1,138 +1,139 @@
-Predictable applications
-    • Runs the same from dev to uat to prod
-    • Runs the same on all deployed instances
+## Predictable applications
+* Runs the same from dev to uat to prod
+* Runs the same on all deployed instances
 
-Your application
-    • More than your source code
+## Your application
+* More than your source code
 
-Environment
-    • Hardware resources
-    • Operating system
-    • System path
-    • Installed software / runtimes
-    • Configuration
+## Environment
+* Hardware resources
+* Operating system
+* System path
+* Installed software / runtimes
+* Configuration
 
-Code vs Runtime Enviornment
+## Code vs Runtime Enviornment
+* Code refers to the written instructions 
+* A runtime environment refers to the software infrastructure in which a code runs.(ex. JRE)
 
-Isolation and Security
+## Multiple apps in one machine
+## Problems
+* Conflicting runtimes
+* Competing for resources
+* Unknown dependencies ( one process may break oher process due to undependence in some other project)
+* Isolation and Security
 
-From bare metals to VMs
-    * Provisioning physical hardwares( old school)
+## The non-ideal solution
+* Separate servers per app.
+* Physical servers with slow provisioning.
+* Capacity for peak load - often idle.
 
-Provisioning physical hardware
-• Procure hardware
-• Mount on server racks
-• New server hardware per app
-• Plan for peak capacity
+# From bare metals to VMs
+* Provisioning physical hardwares( old school)
 
-Multiple apps in one machine
-    * What's the problem?
-
-Environment
-    * Global in scope
-
-Problems
-• Conflicting runtimes
-• Competing for resources
-• Unknown dependencies ( one process may break oher process due to undependence in some other project)
-
-The non-ideal solution
-• Separate servers per app
-• Physical servers with slow provisioning
-• Capacity for peak load - often idle
+# Provisioning physical hardware
+* Procure hardware
+* Mount on server racks
+* New server hardware per app
+* Plan for peak capacity
 
 Virtual Machines
 * Breakthrough solution to this problem
 
 ## Virtual Machines
-Simulates a h/w that runs a full os
-Run a os "inside" os
+* Simulates a h/w that runs a full os
+* Run a os "inside" os
 
+```
 A hypervisor, or virtual machine manager, is a software program that allows multiple operating systems to share a single hardware host. It acts as a intermediary between the operating systems and the hardware, allowing each operating system to run on a separate "virtual" machine. This allows multiple operating systems to run on the same computer at the same time, which can be useful for a variety of purposes, such as testing software on different platforms, consolidating servers, and running multiple applications that are incompatible with each other. There are two main types of hypervisors: type 1, or native or bare-metal hypervisors, and type 2, or hosted hypervisors. Type 1 hypervisors run directly on the host's hardware, while type 2 hypervisors run on top of a host operating system.
-
+```
 * See vm hypervisor.png 
 ex of hypervisor -> virtual box
 
 * One app per vm 
 
-Advantages of VMs
+## Advantages of VMs
 * Share server resources
 * Shift VMs among servers(This is accomplished by copying the memory state of the VM to the destination server while the VM is still running on the source server. Once the memory state has been copied, the VM is paused on the source server and resumed on the destination server, effectively moving the VM to the new server with minimal downtime.)
 * Multiple OS on the same server
 * Machine images
 
-Disadvantages
+## Disadvantages
+
 * See HLD of vm setup.png 
 * running multiple of on a single system becomes very intensive.
 * guest resources is repeated multiple times
-• Wasted computing resources with multiple OS instances
-• OS needs maintenance (updates, patches)
-• OS licensing costs
-• Slow to start up
+* Wasted computing resources with multiple OS instances
+* OS needs maintenance (updates, patches)
+* OS licensing costs
+* Slow to start up
 
-Better solution 
+## Better solution 
 * containers
 
-Virtual machines
+## Virtual machines
 * Isolating environments but with a cost
-Isolating environments
 * What do we really need?
 
-Virtual machines
+## Virtual machines
 * To run an OS
-What we need
+## What we need
 * To run a process
 
-Virtual machines
+## Virtual machines
 * Virtualizing hardware to run a full OS
-What we need
+
+## What we need
 * Virtualizing OS to run a process
 
-Isolating processes
+## Isolating processes,how?
 When a process is running
-• Separation of file systems
-• Separation of installed apps and runtime
-• Separation of running processes
-• Separation of resource usage
+* Separation of file systems
+* Separation of installed apps and runtime
+* Separation of running processes
+* Separation of resource usage
 
-Three technologies
-• chroot
-• namespaces 
-• control groups
+## Three technologies
+* chroot
+* namespaces 
+* control groups
 
-chroot
+## chroot
 * A chroot on Unix operating systems is an operation that changes the apparent root directory for the current running process and its children.
 
-Namespaces
+## Namespaces
 * Namespaces are a feature of the Linux kernel that partitions kernel resources such that one set of processes sees one set of resources while another set of processes sees a different set of resources.
 
-Namespaces types
-• User ID namespace
-• Process ID namespace
-• And more...
+## Namespaces types
+* User ID namespace
+* Process ID namespace
+* And more...
 
+```
 The init process is the first process that is started when the system boots up and it is responsible for starting and managing all other processes on the system.
-
+```
+```
 chroot is not exactly the same thing as a namespace, but it can be used to create a limited, isolated environment for a process, similar to how namespaces are used to isolate processes from each other.
+```
 
-chroot
+## chroot
 * Path and file isolation
-Namespaces
+
+## Namespaces
 * Process and resource isolation
 
-Control groups
+## Control groups
 * groups (abbreviated from control groups) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk
 1/O, network, etc.) of a collection of processes.
 -- noisy neighbour
 
-Three "features"
-• File and path isolation
-• namespaces
-• groups
-
+## Three "features"
+* File and path isolation
+* namespaces
+* groups
 * see linux container like setup.png
 
-This is factilitated by docker
+## This is factilitated by docker
 
 ## Docker
 * Makes creating containers easy
@@ -143,91 +144,98 @@ This is factilitated by docker
 * Because all of the containers share the services of a single operating system kernel, they use fewer resources than virtual machines
 
 ## Definition on Docker website
+```
  A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another.
+```
 
-Process virtualization
-Not machine virtualization
+* Process virtualization
+* Not machine virtualization
 
-If we run docker on any other os other than linux , it installs a linux virtual machine.
+* If we run docker on any other os other than linux , it installs a linux virtual machine.
+* In windows it used wsl ( windows sub system for linux )
 
-In windows it used wsl ( windows sub system for linux )
 
+## Client server models
 
-Docker 
-Client server models
-
-Docker uses a client-server architecture.
-
-Client
-The Docker daemon
-The Docker engine
+## Docker uses a client-server architecture.
+* Client
+* The Docker daemon
+* The Docker engine
 
 * The Docker client is the command-line interface that allows users to interact with the Docker system.
 * The Docker daemon is a background process that runs on the host machine, it listens to the requests from the client and performs the actions requested by the client.
 * The Docker engine is the core technology that enables the running and management of Docker containers, it works as a middleware between the client and daemon, it communicates with the Docker daemon to create, start, stop and manage containers and also communicates with the host operating system to manage the container's resources.
 
-# images
+# Images
 
-Creating containers
+## Creating containers
+```
 $ docker run (hypothetical -> suppose this creates a empty container, now what)
+```
 
-we need a starting point
-So, Images
+* we need a starting point
+* So, Images
 
-Containerization
-• Creating an isolated container
-• Pre-setup the container to what you want
+## Containerization
+* Creating an isolated container
+* Pre-setup the container to what you want
 
-What do you need?
-• Operating system utilities , ex shell 
-• Runtimes ( ex jre for java app )
-• Your application
+## What do you need?
+* Operating system utilities , ex shell 
+* Runtimes ( ex jre for java app )
+* Your application
 
 All these need to be present before we seal our container from outer world.
 
-Docker images
+## Docker images
 Because an "empty" container doesn't make sense! (set aside some wierd case)
 Template for a container
 
-Docker image
-• Bunch of files that need to be in a container
-• Basically a compressed file
-• You can use one to start a container
-• The container will contain the files from the image
+## Docker image
+* Bunch of files that need to be in a container
+* Basically a compressed file
+* You can use one to start a container
+* The container will contain the files from the image
 
-Imagine a Docker image
-• Can contain ls and cat commands
-• Can contain some barebones Unix commands
-• Can contain full runtimes! (Java, Node.js...)
+## Imagine a Docker image
+* Can contain ls and cat commands
+* Can contain some barebones Unix commands
+* Can contain full runtimes! (Java, Node.js...)
 
-Starting a container
+## Starting a container
+```
 $ docker run <imagefile>
+```
 Creating new isolated environment
 
-Docker images
-• You can create one
-• Public images repository
+## Docker images
+* You can create one
+* Public images repository
 
 Docker image registries
-• Docker Hub (deafult repo, show docker hub)
-• Other public registries
+* Docker Hub (deafult repo, show docker hub)
+* Other public registries
 * self hosted pvt repos.
 * class object analogy
 
 
 When the process ends the container ends
+```
 $ docker run alpine
 $ docker run alpine:3.14.3
 $ docker run alpine:latest
+```
 
 Observation
 Containerization makes sense only for a process
 * we are jailing a process.
 * the container ends when process ends
+```
 $ docker run <image> <command>
 $ docker run echo hello
 $ docker run alpine ls
 $ docker run -it alpine sh
+```
 
 docker run
 Downloads images automatically
@@ -235,10 +243,10 @@ Downloads images automatically
 What happened when we use Docker run
 
 What happened
-• Downloaded image file from Docker Hub
-• Used the linux containerization features
-• New container created with the files from the image
-• Started a prompt within the container
+* Downloaded image file from Docker Hub
+* Used the linux containerization features
+* New container created with the files from the image
+* Started a prompt within the container
 
 ### show how to run java without installing java in host os
 jshell
@@ -249,13 +257,15 @@ jshell
 
 ### Images vs containers
 
-• Every container has a starting point as an image
-• Two containers starting from the same image are exactly identical (at start)
-• You can modify things on a container!
-• That doesn't modify the image
+* Every container has a starting point as an image
+* Two containers starting from the same image are exactly identical (at start)
+* You can modify things on a container!
+* That doesn't modify the image
 
-# show how docker image is just a file 
+# docker image is just a file 
+```
 docker save alpine -o alpine.zip 
+```
 
 # Advantage
 Immutability
@@ -264,8 +274,11 @@ Immutability
 # Pick your image
 Don't tweak your container
 
+# List of Docker containers
+```
 docker ps
-List of Docker containers
+```
+
 
 ## Important Docker command
 
