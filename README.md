@@ -1,3 +1,5 @@
+# Docker 
+
 ## Predictable applications
 * Runs the same from dev to uat to prod
 * Runs the same on all deployed instances
@@ -133,6 +135,7 @@ chroot is not exactly the same thing as a namespace, but it can be used to creat
 * File and path isolation
 * namespaces
 * groups
+
 * see linux container like setup.png
 
 ## This is factilitated by docker
@@ -190,8 +193,8 @@ $ docker run (hypothetical -> suppose this creates a empty container, now what)
 All these need to be present before we seal our container from outer world.
 
 ## Docker images
-Because an "empty" container doesn't make sense! (set aside some wierd case)
-Template for a container
+* Because an "empty" container doesn't make sense! (set aside some wierd case)
+* Template for a container
 
 ## Docker image
 * Bunch of files that need to be in a container
@@ -214,24 +217,24 @@ Creating new isolated environment
 * You can create one
 * Public images repository
 
-Docker image registries
+## Docker image registries
 * Docker Hub (deafult repo, show docker hub)
 * Other public registries
 * self hosted pvt repos.
 * class object analogy
 
-
-When the process ends the container ends
+## Running a docker container
 ```
 $ docker run alpine
 $ docker run alpine:3.14.3
 $ docker run alpine:latest
 ```
 
-Observation
-Containerization makes sense only for a process
+## Observation
+* Containerization makes sense only for a process
 * we are jailing a process.
 * the container ends when process ends
+
 ```
 $ docker run <image> <command>
 $ docker run echo hello
@@ -268,11 +271,11 @@ docker save alpine -o alpine.zip
 ```
 
 ## Advantage
-Immutability
+* Immutability
 
 
 ## Pick your image
-Don't tweak your container
+* Don't tweak your container
 
 ## List of Docker containers
 ```
@@ -327,6 +330,7 @@ docker rm <id>
 ```
 docker commit 
 ```
+
 ## run command in already running container
 ```
 docker exec <id> <command> 
@@ -345,35 +349,67 @@ docker run --name <my-container-name> <name> // name a container as choice
 
 ## setting enviornment variables
 ```
-docker run --name <my-container-name> -e <evn_var_name>=<env_var_val> <name> // we can set enviorment variables. // this may be useful for setting password of db
+docker run --name <my-container-name> -e <evn_var_name>=<env_var_val> <name>
 ```
 
-docker run -v ${PWD}:/hostvol <name> // now the container the pwd folder from inside the container
-docker run -v <host_sys_path>:<container_path> <name> // container is able to access <host_sys_path> from inside the container and the folder is mounted in the <container_path>
-// we can even save files inside the container in the mounted vol and it will get reflected in the host system
-//it acts like a bridge
+## mount the host dir to a dir in docker called hostvol
+```
+docker run -v ${PWD}:/hostvol <name> 
+docker run -v <host_sys_path>:<container_path> <name> // container is able to access <host_sys_path>
+```
+* pwd will be mounted at /hostdir in the container
+* we can even save files inside the container in the mounted vol and it will get reflected in the host system
+* it acts like a bridge
 
-docker run --name my-mysql-1 -e MYSQL_ROOT_PASSWORD=secret -v ${PWD}: /var/lib/mysql -d mysql  // my sql saves the files in the /var/lib/mysql so here we are plugging our host dir in place of that
+## run a mysql container
+```
+docker run --name my-mysql-1 -e MYSQL_ROOT_PASSWORD=secret -v ${PWD}: /var/lib/mysql -d mysql 
+``` 
+* my sql saves the files in the /var/lib/mysql so here we are plugging our host dir in place of that
+* most people recommend runnning stateless app in docker , it is not preferred to run dbs in docker
 
+# volumes in docker 
 
-* most people ususlly prefer runnning stateless app in docker , it is not preferred to run dbs in docker
+## Create a new volume: 
+```
+docker volume create my_volume
+```
 
-## volumes in docker 
-Create a new volume: docker volume create my_volume
-List all volumes: docker volume ls
-Inspect a volume: docker volume inspect my_volume
-Remove a volume: docker volume rm my_volume
+## List all volumes: 
+```
+docker volume ls
+```
 
+## Inspect a volume: Returns metadata about the volume
+```
+docker volume inspect my_volume
+```
+
+## Remove a volume
+```
+docker volume rm my_volume
+```
+
+## mount a volume 
+```
 docker run -v my_volume:/app/data my_image
+```
 
 ## port forwarding in docker
+```
 docker run -p 8080:80 nginx
 docker run -p <hostpost>:<dockerport> <imagename>
-// both port forwarding and volume mount at once
+```
+
+## both port forwarding and volume mount at once
+```
 docker run --rm -v ${PWD} : /usr/share/nginx/html -p 8080:80 nginx
+```
 
-A docker image has a layered structure that can be reused by other images
-In case some layer is being used by multiple images and we remove one of those image the layer is just untagged and not deleted
+* A docker image has a layered structure that can be reused by other images
+* In case some layer is being used by multiple images and we remove one of those image the layer is just untagged and not deleted.
 
-docker inspect image <imagename> // this will provide the informations about every layer of the image
-
+## informations about every layer
+```
+docker inspect image <imagename> 
+```
