@@ -25,24 +25,26 @@
 
 ## The non-ideal solution
 * Separate servers per app.
-* Physical servers with slow provisioning.
-* Capacity for peak load - often idle.
 
-# From bare metals to VMs
-* Provisioning physical hardwares( old school)
-
-# Provisioning physical hardware
+## Provisioning physical hardware
 * Procure hardware
 * Mount on server racks
 * New server hardware per app
 * Plan for peak capacity
 
-Virtual Machines
-* Breakthrough solution to this problem
+## Problems
+* Physical servers with slow provisioning.
+* Capacity for peak load - often idle.
+
+## From bare metals to VMs
+* Provisioning physical hardwares( old school).
 
 ## Virtual Machines
-* Simulates a h/w that runs a full os
-* Run a os "inside" os
+* Breakthrough solution to this problem.
+
+## Virtual Machines
+* Simulates a h/w that runs a full os.
+* Run a os "inside" os.
 
 ```
 A hypervisor, or virtual machine manager, is a software program that allows multiple operating systems to share a single hardware host. It acts as a intermediary between the operating systems and the hardware, allowing each operating system to run on a separate "virtual" machine. This allows multiple operating systems to run on the same computer at the same time, which can be useful for a variety of purposes, such as testing software on different platforms, consolidating servers, and running multiple applications that are incompatible with each other. There are two main types of hypervisors: type 1, or native or bare-metal hypervisors, and type 2, or hosted hypervisors. Type 1 hypervisors run directly on the host's hardware, while type 2 hypervisors run on top of a host operating system.
@@ -237,44 +239,42 @@ $ docker run alpine ls
 $ docker run -it alpine sh
 ```
 
-docker run
-Downloads images automatically
+* docker run Downloads images automatically
 
-What happened when we use Docker run
+## What happened when we use Docker run
 
-What happened
 * Downloaded image file from Docker Hub
 * Used the linux containerization features
 * New container created with the files from the image
 * Started a prompt within the container
 
-### show how to run java without installing java in host os
+## show how to run java without installing java in host os
 jshell
-# similarly we can run python or node etc on our system without installing them.
+* similarly we can run python or node etc on our system without installing them.
 
-# how is containers used in dev
-# cloud providers like AWS , OCI , GCP have containerisstion and container orchasteration system
+## how is containers used in dev
+* cloud providers like AWS , OCI , GCP have containerisstion and container orchasteration system
 
-### Images vs containers
+## Images vs containers
 
 * Every container has a starting point as an image
 * Two containers starting from the same image are exactly identical (at start)
 * You can modify things on a container!
 * That doesn't modify the image
 
-# docker image is just a file 
+## docker image is just a file 
 ```
 docker save alpine -o alpine.zip 
 ```
 
-# Advantage
+## Advantage
 Immutability
 
 
-# Pick your image
+## Pick your image
 Don't tweak your container
 
-# List of Docker containers
+## List of Docker containers
 ```
 docker ps
 ```
@@ -282,27 +282,71 @@ docker ps
 
 ## Important Docker command
 
-docker ps // shows running containers
-docker stop <id> //normal stop a process
-docker kill <id> //force stop a process
-docker start <id> // start a stopped process
-docker run <name>
-docker run -d <name>  // run the process in background
-docker run -it <name> <command> // run a docker container in interactive terminal mode and run the command in that container
-docker ps -a
-docker rm <id> remove a stopped container
-// cannot remove a running container
-// explain why docker stop doesnot free up any memory
-docker commit 
+## shows running containers
+```
+docker ps 
+```
 
-docker exec <id> <command> // runs command in already running container
+## normal stop a process
+```
+docker stop <id> 
+```
+
+## force stop a process
+```
+docker kill <id>
+```
+
+## start a stopped process
+```
+docker start <id>
+```
+
+## run a process in background
+```
+docker run -d <name>  
+```
+
+## run a docker container in interactive terminal mode
+```
+docker run -it <name> <command>
+```
+
+## show all the containers
+```
+docker ps -a
+```
+## remove a stopped container
+```
+docker rm <id> 
+```
+* cannot remove a running container
+* explain why docker stop doesnot free up any memory
+
+## docker commit
+```
+docker commit 
+```
+## run command in already running container
+```
+docker exec <id> <command> 
 docker exec <id> ls
+```
 
 ## --rm
+```
 docker run --rm -it <name> <command> //remove the container when the process is over
-docker run --name <my-container-name> <name> // name a container as choice
+```
 
+## naming a container
+```
+docker run --name <my-container-name> <name> // name a container as choice
+```
+
+## setting enviornment variables
+```
 docker run --name <my-container-name> -e <evn_var_name>=<env_var_val> <name> // we can set enviorment variables. // this may be useful for setting password of db
+```
 
 docker run -v ${PWD}:/hostvol <name> // now the container the pwd folder from inside the container
 docker run -v <host_sys_path>:<container_path> <name> // container is able to access <host_sys_path> from inside the container and the folder is mounted in the <container_path>
