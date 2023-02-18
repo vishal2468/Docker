@@ -413,3 +413,5 @@ docker run --rm -v ${PWD} : /usr/share/nginx/html -p 8080:80 nginx
 ```
 docker inspect image <imagename> 
 ```
+[saved checkpoint vid 36](https://www.youtube.com/watch?v%3D82w_vjUFp7k%26list%3DPLqq-6Pq4lTTaXVqNgp1hSsvySCKj0RpUY%26index%3D33)
+
