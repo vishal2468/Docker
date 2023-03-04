@@ -415,3 +415,207 @@ docker inspect image <imagename>
 ```
 [saved checkpoint vid 36](https://www.youtube.com/watch?v%3D82w_vjUFp7k%26list%3DPLqq-6Pq4lTTaXVqNgp1hSsvySCKj0RpUY%26index%3D33)
 
+## docker commit
+```
+docker commit <container-to-commit> <new-image>
+```
+
+## The golden image problem
+
+## Imagine this scenario
+* Spin up a container
+* Find some issues
+* Make some fixes
+* Create a new image
+
+## What's the problem?
+* Time to update some libraries
+
+## What's the problem?
+* Nobody knows what fixes were made
+
+## What's the problem?
+* The changes aren't recorded
+
+* You need code
+
+## Dockerfile
+* Write code that creates an image
+
+## Dockerfile
+* the name of the file is "Dockerfile"
+
+## from
+* defined what are the images on which we are basing the new image
+* it should be the first line of the Dockerfile
+```
+FROM alpine
+```
+
+## run 
+* this allows for a arbiraty command to run when the image is being created
+* the command is going to run on the base image.
+* can run multiple run commands
+```
+RUN touch hello.txt
+```
+
+## run
+* can run multiple commands at once using the following syntax
+```
+RUN mkdir code; \
+    cd code; \
+    echo "Hello World" > hello-world.txt
+```
+
+## workdir
+* it sets the working dir to the specified dir
+* run command will run commands in the workdir that was set above 
+```
+WORKDIR <dir-name>
+```
+
+## CMD
+* runs when the conatiner is created or starts up
+* default cmd is shell for example apline
+* the follwing command overrides that command
+* there can be only one CMD command
+```
+CMD echo "Welcome to my container instance"
+```
+* the following command will run 2 commands at a time
+* && is a shell command , so that is a composite type of command
+```
+CMD echo "Welcome to my container instance" && sh
+```
+* the cmd command specified in the Dockerfile can be overriden by specifing a command in docker run 
+
+## copy command 
+* we can mount a folder whose files we want to be transferred to the container
+* but instead we can also copy the images 
+* the file should be present in the dir of dockerfile
+```
+COPY <file-name> <location-on-container>
+```
+* . specifies the current working directory of image
+```
+COPY <file-name> .
+```
+
+## exec way
+* the following code will spun up a shell and on that shell the javac Hello.java will run
+```
+RUN javac Hello. java
+```
+* the below is the recommended way where no shell will spun and the javac Hello.java will directly run.
+* same applies for CMD command as well
+```
+RUN [" javac", "Hello. java"]
+```
+
+## Limitations of exec way
+* wont be able to run the below command because && is a shell command
+* nor can we put multiple CMD as there can be only one CMD command
+```
+CMD ["echo" ,"Welcome to my container instance", "&&" ,"sh"]
+```
+
+## ENTRYPOINT
+* entrypoint is executed no matter what
+* the command in CMD will get appended to the entrypoint
+* we can override the CMD in docker run command but the entrypoint will alwaws run
+* in below case the Vishal will go as the argument in the entrypoint command
+```
+ENTRYPOINT [" java", "Hello" ]
+CMD "Vishal" 
+```
+## MAINTAINER
+* MAINTAINER Koushik Kothagal <myemail@domain.com>
+
+## ADD
+* it is similar to COPY but a bit more
+* if the file is a zip file , it will extract the file
+* we can also specify the url and it can download the files from there
+```
+ADD myfile.tar.gz .
+```
+```
+ADD https://www.github.com/mylibrary/releases/1.0.1.jar /lib
+```
+
+## ENV
+* set enviornment variables
+* the variables will be available even while building the image in the subsequent commands
+```
+ENV DB_HOST_URL mydatabaseur1: 1234/db
+```
+
+## expose a port
+* The EXPOSE instruction informs Docker that the container listens on the specified network ports at runtime.
+```
+EXPOSE 8080
+```
+
+## Volume
+```
+VOLUME [" host/dir", "/container/dir"]
+```
+
+## USER
+* specifies the currnt logged in user
+```
+USER vishal
+```
+
+## each command in docker file creates a new image
+* so if we set some enviornment variable using run command , it wont get transferrend to the next image and will be lost.
+
+## Docker networking
+
+## A container
+* needs access to the network
+* needs internet
+* needs to communicate with another container
+
+## What happens when
+* docker run httpd
+* Access localhost
+
+## Virtualized everything
+* Includes network
+
+## Default
+* Network bridge
+
+## Docker compose
+## An app
+* Needs multiple containers
+
+## Option
+* Run CLI commands in a script
+* Use docker-compose
+
+## Docker compose
+* Takes in a YML file
+* File contains info about the setup
+* Possibly multiple containers
+* One command to manage them all
+
+## docker-compose.yml
+```yml
+version: '3' 
+services:
+    mongodb:
+        image: mongo 
+        ports: 
+            - 27017:27017 
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=root
+            - MONGO_INITDB_ROOT_PASSWORD=root 
+    redis:
+        image: redis
+        ports:
+            - 6379:6379 
+        environment:
+            - REDIS_PASSWORD = root
+```
