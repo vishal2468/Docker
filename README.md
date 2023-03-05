@@ -587,6 +587,40 @@ USER vishal
 ## Default
 * Network bridge
 
+## get the ip of container in bridge(virtual) network
+```
+docker inspect <container-id>
+```
+* container can talk to each other through the bridge network
+* but if we want the container to be accessible in the host network , we need some kind of forwading from the bridge network to local network.
+
+## Network types
+* bridge network 
+* host network
+* none
+* overlay
+* ipvlan
+* macvlan
+* third pary drivers
+
+```
+docker network ls
+```
+
+## create own networks
+* we can even create our own networks
+* and put container accouring to our choice in various network
+* ex we can create our own bride network , and put different container in diff bridge network
+
+```
+docker network create -d bridge mybridge
+```
+
+## put a container in some network
+* by default the countainer is put in the default bridge network
+```
+docker run --net=mybridge httpd
+```
 ## Docker compose
 ## An app
 * Needs multiple containers
